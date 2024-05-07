@@ -8,11 +8,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.R
 
+val poppinsFamily = FontFamily(
+    Font(R.font.poppins_regular, FontWeight.Normal),
+    Font(R.font.poppins_black, FontWeight.Black),
+    Font(R.font.poppins_bold, FontWeight.Bold),
+    Font(R.font.poppins_medium, FontWeight.W500),
+    Font(R.font.poppins_extrabold, FontWeight.ExtraBold),
+    Font(R.font.poppins_semibold, FontWeight.SemiBold),
+)
+
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
+        fontFamily = poppinsFamily,
+        fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
@@ -33,13 +42,4 @@ val Typography = Typography(
         letterSpacing = 0.5.sp
     )
     */
-)
-
-val poppinsFamily = FontFamily(
-    Font(R.font.poppins_regular, FontWeight.Normal),
-    Font(R.font.poppins_black, FontWeight.Black),
-    Font(R.font.poppins_bold, FontWeight.Bold),
-    Font(R.font.poppins_medium, FontWeight.W500),
-    Font(R.font.poppins_extrabold, FontWeight.ExtraBold),
-    Font(R.font.poppins_semibold, FontWeight.SemiBold),
 )

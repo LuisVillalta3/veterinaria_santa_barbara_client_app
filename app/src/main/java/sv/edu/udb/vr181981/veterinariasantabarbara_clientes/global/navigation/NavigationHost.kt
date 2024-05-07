@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.citas.ui.CitasView
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.db.managers.SharedPreferencesManager
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.home.ui.HomeView
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.login.ui.loginView
@@ -16,7 +17,7 @@ import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.register.ui.Register
 @Composable
 fun NavigationHost() {
     val navController = rememberNavController()
-    val sharedPreferences: SharedPreferencesManager = SharedPreferencesManager()
+    val sharedPreferences = SharedPreferencesManager()
     val startDestination = if (sharedPreferences.isLoggedIn()) {
         Router.homeRoute
     } else {
@@ -30,6 +31,10 @@ fun NavigationHost() {
 
         composable(Router.homeRoute) {
             HomeView(navController)
+        }
+
+        composable(Router.citasRoute) {
+            CitasView(navController = navController)
         }
 
         composable(Router.registerStep1Route) {
