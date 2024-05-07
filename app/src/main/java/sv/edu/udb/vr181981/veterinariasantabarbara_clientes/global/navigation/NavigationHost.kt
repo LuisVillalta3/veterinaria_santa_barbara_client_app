@@ -8,6 +8,7 @@ import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.citas.ui.CitasView
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.db.managers.SharedPreferencesManager
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.home.ui.HomeView
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.login.ui.loginView
+import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.notifications.ui.NotificationsView
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.register.ui.RegisterPetTemp
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.register.ui.RegisterStep2View
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.register.ui.RegisterStep3View
@@ -55,6 +56,10 @@ fun NavigationHost() {
 
         composable(Router.registerPetTemp) {
             RegisterPetTemp(navController)
+        }
+
+        composable(Router.notificationsRoute) {
+            NotificationsView(navController)
         }
     }
 }

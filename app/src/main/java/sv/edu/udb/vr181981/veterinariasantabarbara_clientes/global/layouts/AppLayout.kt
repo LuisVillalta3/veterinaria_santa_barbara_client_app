@@ -2,15 +2,10 @@
 
 package sv.edu.udb.vr181981.veterinariasantabarbara_clientes.global.layouts
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
@@ -30,12 +25,9 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,7 +35,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.global.navigation.Router
@@ -58,7 +49,7 @@ fun AppLayout(navController: NavHostController, content: @Composable () -> Unit)
     Scaffold(
         bottomBar = { BottomBar(navController) },
         containerColor = Color.White,
-        topBar = { CustomAppBar(isBlueVersion = isBlueVersion) }
+        topBar = { CustomAppBar(isBlueVersion = isBlueVersion, navController) }
     ) {
         Surface(modifier = Modifier.padding(it)) {
             content()
@@ -223,7 +214,7 @@ private fun NavBarItemIcon(
 }
 
 @Composable
-private fun CustomAppBar(isBlueVersion: Boolean = false) {
+private fun CustomAppBar(isBlueVersion: Boolean = false, navController: NavHostController) {
     TopAppBar(
         colors = TopAppBarColors(
             containerColor = if (isBlueVersion) BluePrimary else Color.White,
@@ -241,7 +232,7 @@ private fun CustomAppBar(isBlueVersion: Boolean = false) {
             )
         },
         actions = {
-            NotificationButtonWithNotifications(true, isBlueVersion)
+            NotificationButtonWithNotifications(true, isBlueVersion, navController)
         }
     )
 }
@@ -249,10 +240,11 @@ private fun CustomAppBar(isBlueVersion: Boolean = false) {
 @Composable
 private fun NotificationButtonWithNotifications(
     hasNotifications: Boolean = true,
-    isBlueVersion: Boolean = false
+    isBlueVersion: Boolean = false,
+    navController: NavHostController
 ) {
     if (!hasNotifications) {
-        return NotificationButton(isBlueVersion)
+        return NotificationButton(isBlueVersion = isBlueVersion, navController = navController)
     }
 
     BadgedBox(
@@ -266,14 +258,14 @@ private fun NotificationButtonWithNotifications(
             )
         },
     ) {
-        NotificationButton(isBlueVersion)
+        NotificationButton(isBlueVersion = isBlueVersion, navController = navController)
     }
 }
 
 @Composable
-private fun NotificationButton(isBlueVersion: Boolean = false) {
+private fun NotificationButton(navController: NavHostController, isBlueVersion: Boolean = false) {
     IconButton(
-        onClick = { /*TODO*/ },
+        onClick = { navController.navigate(Router.notificationsRoute) },
         modifier = Modifier.padding(end = 10.dp)
     ) {
         Icon(
