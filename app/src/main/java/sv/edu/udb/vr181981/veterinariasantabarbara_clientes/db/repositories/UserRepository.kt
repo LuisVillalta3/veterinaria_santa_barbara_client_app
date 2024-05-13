@@ -14,22 +14,19 @@ class UserRepository : Repository() {
             val res = db.collection("users").document(userID).get().await()
             res.data?.let {
                 val userData = UserEntity(
-                    id = it["id"].toString(),
-                    name = it["name"].toString(),
+                    id = userID,
+                    name = it["nombre"].toString(),
                     email = it["email"].toString(),
                     telefono = it["telefono"].toString(),
-                    lastname = it["lastname"].toString(),
+                    lastname = it["apellido"].toString(),
                     fechaNacimiento = it["fechaNacimiento"].toString(),
                 )
-
-                it["mascotas"]?.let { mascota ->
-                    Log.d("UserRepository", "Mascotas: $mascota")
-                }
 
                 RoomManager.db.userDao().insertUser(userData)
                 userData
             }
         } catch (e: Exception) {
+            Log.d("UserRepositoryError", "Error: ${e.message}")
             null
         }
     }

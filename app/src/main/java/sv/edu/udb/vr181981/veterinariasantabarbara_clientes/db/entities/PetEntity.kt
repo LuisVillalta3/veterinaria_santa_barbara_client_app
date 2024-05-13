@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class PetEntity(
     @PrimaryKey val id: String,
     @ColumnInfo val nombreMascota: String,
-    @ColumnInfo val especieMascota: String,
+    @ColumnInfo val especie: String,
     @ColumnInfo val especieMascotaText: String,
     @ColumnInfo val razaDesconocida: Boolean,
     @ColumnInfo val razaText: String,
