@@ -68,7 +68,9 @@ fun HomeView(navController: NavHostController, homeViewModel: HomeViewModel = vi
                 items(citasList.size) {
                     val cita = citasList[it]
                     Box(modifier = Modifier.padding(horizontal = 25.dp)) {
-                        PetCitaCard(cita)
+                        PetCitaCard(cita, onClick = {
+                            navController.navigate("cita/ver/${cita.id}")
+                        })
                     }
                     SpacerUi(height = 20.dp)
                 }

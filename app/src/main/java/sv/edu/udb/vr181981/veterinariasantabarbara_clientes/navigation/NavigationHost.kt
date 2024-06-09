@@ -1,14 +1,17 @@
 package sv.edu.udb.vr181981.veterinariasantabarbara_clientes.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.modules.citas.ui.CitasView
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.db.managers.SharedPreferencesManager
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.modules.citas.citaform.ui.CitaFormStep1View
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.modules.citas.citaform.ui.CitaFormStep2View
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.modules.citas.citaform.ui.CitaFormStep3View
+import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.modules.citas.ui.VerCitaView
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.modules.home.ui.HomeView
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.modules.login.ui.loginView
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.modules.notifications.ui.NotificationsView
@@ -75,6 +78,11 @@ fun NavigationHost() {
 
         composable(Router.citaStep3Route) {
             CitaFormStep3View(navController)
+        }
+
+        composable(Router.verCitaDataRoute) { backStackEntry ->
+            val citaId = backStackEntry.arguments?.getString("citaId") ?: ""
+            VerCitaView(citaId, navController)
         }
     }
 }

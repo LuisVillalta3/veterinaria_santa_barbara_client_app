@@ -14,4 +14,6 @@ object Router {
     const val citaStep1Route = "cita/step1"
     const val citaStep2Route = "cita/step2"
     const val citaStep3Route = "cita/step3"
+
+    const val verCitaDataRoute = "cita/ver/{citaId}"
 }

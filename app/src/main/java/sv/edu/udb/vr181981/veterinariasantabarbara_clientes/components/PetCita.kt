@@ -2,6 +2,7 @@ package sv.edu.udb.vr181981.veterinariasantabarbara_clientes.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +35,7 @@ import androidx.compose.ui.unit.sp
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.db.entities.PoweredCitaEntity
 
 @Composable
-fun PetCitaCard(cita: PoweredCitaEntity) {
+fun PetCitaCard(cita: PoweredCitaEntity, onClick: () -> Unit = {}) {
     val cardMainColor = when (cita.tipoCita) {
         "Chequeo" -> Color(0xFF7141BF)
         "Desparasitación" -> Color(0xFFFF3D00)
@@ -77,7 +78,8 @@ fun PetCitaCard(cita: PoweredCitaEntity) {
                     drawContent()
                 }
             }
-            .padding(15.dp),
+            .padding(15.dp)
+            .clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
@@ -114,9 +116,8 @@ fun PetCitaCard(cita: PoweredCitaEntity) {
                 fontWeight = FontWeight.Normal,
                 fontSize = 14.sp
             )
-            Row(
+            Column(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically

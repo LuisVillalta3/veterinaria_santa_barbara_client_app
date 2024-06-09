@@ -18,20 +18,26 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.layouts.AppLayout
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.components.PetCitaCard
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.components.SpacerUi
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.modules.citas.citaform.data.RegisterCitasRepository
+import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.modules.citas.domain.CitasViewModel
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.navigation.Router
 import sv.edu.udb.vr181981.veterinariasantabarbara_clientes.ui.theme.BluePrimary
 
 @Composable
-fun CitasView(navController: NavHostController) {
+fun CitasView(navController: NavHostController, citasViewModel: CitasViewModel = viewModel()) {
+    val citas by citasViewModel.citas.collectAsState()
+
     AppLayout(
         navController = navController
     ) {
@@ -41,9 +47,14 @@ fun CitasView(navController: NavHostController) {
                 .padding(20.dp)
         ) {
             item { CitaContainer(navController) }
-            items(10) {
-                //PetCitaCard(cita)
-                SpacerUi(height = 20.dp)
+            citas?.let { citasList ->
+                items(citasList.size) {
+                    val cita = citasList[it]
+                    PetCitaCard(cita, onClick = {
+                        navController.navigate("cita/ver/${cita.id}")
+                    })
+                    SpacerUi(height = 20.dp)
+                }
             }
         }
     }
@@ -51,7 +62,7 @@ fun CitasView(navController: NavHostController) {
 
 @Composable
 private fun CitaContainer(navController: NavHostController) {
-    val state = rememberDatePickerState()
+    //val state = rememberDatePickerState()
 
     Text(
         text = "Citas y",
@@ -92,12 +103,12 @@ private fun CitaContainer(navController: NavHostController) {
         }
     }
     SpacerUi(height = 20.dp)
-    DatePicker(
+    /*DatePicker(
         state = state,
         showModeToggle = false,
         colors = DatePickerDefaults.colors(
             selectedDayContainerColor = BluePrimary,
             selectedYearContainerColor = BluePrimary
-        )
-    )
+        ),
+    )*/
 }

@@ -70,8 +70,68 @@ class CitaRepository : Repository() {
         }
     }
 
+    private suspend fun getCitasFromFirebaseById(citaId: String): PoweredCitaEntity? {
+        val userId = sharedPreferences.getUserID() ?: return null
+        return try {
+            val res = db.collection("citas").document(citaId).get().await()
+
+            var cita: PoweredCitaEntity? = null
+
+            res.data?.let {
+                val petId = it["mascotaId"].toString()
+                val doctorId = it["doctorId"].toString()
+
+                val doctorSnapshot = db.collection("doctors").document(doctorId).get().await()
+                val petSnapshot = db
+                    .collection("users")
+                    .document(userId)
+                    .collection("mascotas")
+                    .document(petId)
+                    .get()
+                    .await()
+
+                val doctorData = doctorSnapshot.data ?: mapOf()
+                val petData = petSnapshot.data ?: mapOf()
+
+                cita = PoweredCitaEntity(
+                    id = res.id,
+                    doctorId = doctorId,
+                    fecha = it["fecha"].toString(),
+                    hora = it["hora"].toString(),
+                    userId = userId,
+                    mascotaId = petId,
+                    tipoCita = it["tipoConsulta"].toString(),
+                    doctor = DoctorEntity(
+                        id = doctorSnapshot.id,
+                        nombre = doctorData["nombre"].toString(),
+                    ),
+                    mascota = PetEntity(
+                        id = petSnapshot.id,
+                        nombreMascota = petData["nombre"].toString(),
+                        razaText = petData["raza"].toString(),
+                        razaDesconocida = petData["razaDesconocida"].toString() == "true",
+                        generoMascotas = petData["genero"].toString(),
+                        fechaNacimiento = petData["fechaNacimiento"].toString(),
+                        especie = petData["especie"].toString(),
+                        especieMascotaText = petData["especieText"].toString(),
+                    )
+                )
+            }
+
+
+            cita
+        } catch (e: Exception) {
+            Log.d("CitaRepositoryError", "Error: ${e.message}")
+            null
+        }
+    }
+
     suspend fun getCitas(): List<PoweredCitaEntity> {
         return getCitasFromFirebase()
+    }
+
+    suspend fun getCitaById(citaId: String): PoweredCitaEntity? {
+        return getCitasFromFirebaseById(citaId)
     }
 
     suspend fun getFutureCitas(): List<PoweredCitaEntity> {
